@@ -19,38 +19,48 @@
             background: #1E1E1E;
             padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
         .title {
             font-size: 32px;
             font-weight: 800;
             margin-bottom: 20px;
-            background: linear-gradient(90deg, #00ADB5, #FF5722);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #FFFFFF; /* Белый заголовок */
         }
         .question {
             margin-top: 20px;
-            font-size: 18px;
-            font-weight: 600;
+            font-size: 20px;
+            font-weight: 700;
+            color: #00ADB5;
+        }
+        .answers-list {
+            padding: 0;
+        }
+        .answers-list li {
+            margin: 10px 0;
         }
         .answer {
             display: block;
-            background: #00ADB5;
-            color: #121212;
-            padding: 12px;
+            background: #222831;
+            color: #EEEEEE;
+            padding: 15px;
             border-radius: 8px;
-            text-decoration: none;
             font-weight: 500;
-            margin: 8px auto;
-            width: 100%;
-            transition: background 0.3s ease-in-out;
             text-align: left;
             cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease-in-out;
         }
         .answer:hover {
+            background: #393E46;
+        }
+        input[type="radio"] {
+            display: none;
+        }
+        input[type="radio"]:checked + .answer {
             background: #FF5722;
             color: #FFFFFF;
+            border: 2px solid #FF8A65;
         }
         .btn-submit {
             background: linear-gradient(135deg, #FF5722, #E64A19);
@@ -69,34 +79,24 @@
             transform: scale(1.05);
             box-shadow: 0 6px 15px rgba(255, 87, 34, 0.8);
         }
-        input[type="radio"] {
-            display: none;
-        }
-        input[type="radio"]:checked + label {
-            background: #FF5722;
-            color: #FFFFFF;
-        }
-        li {
-            background: #00ADB5;
-        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2 class="title">Тест: {{ subject.name }}</h2>
+        <h2 class="title">📖 Тест: {{ subject.name }}</h2>
         <form method="POST">
             {% csrf_token %}
-                {% for question in questions %}
-                    <p class="question">{{ question.questions }}</p>
-                    <ol type="A">
+            {% for question in questions %}
+                <p class="question">{{ question.questions }}</p>
+                <ol class="answers-list" type="A">
                     {% for answer in question.answers_set.all %}
                         <li>
                             <input type="radio" id="answer_{{ answer.id }}" name="{{ question.id }}" value="{{ answer.id }}">
                             <label class="answer" for="answer_{{ answer.id }}">{{ answer.answer }}</label>
                         </li>
                     {% endfor %}
-                    </ol>
-                {% endfor %}
+                </ol>
+            {% endfor %}
             <button type="submit" class="btn-submit">📩 Отправить</button>
         </form>
     </div>
