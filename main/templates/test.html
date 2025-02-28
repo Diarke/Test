@@ -83,7 +83,7 @@
 </head>
 <body>
     <div class="container">
-        <h2 class="title">📖 Тест: {{ subject.name }}</h2>
+        <h2 class="title">Тест: {{ subject.name }}</h2>
         <form method="POST">
             {% csrf_token %}
             {% for question in questions %}
