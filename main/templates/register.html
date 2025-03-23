@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="{% static 'main/css/register.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h2 class="title">🔑 Регистрация</h2>
+        <form method="post">
+            {% csrf_token %}
+            <label for="{{ form.username.id_for_label }}">Имя пользователя</label>
+            {{ form.username }}
+            <script>document.getElementById("{{ form.username.id_for_label }}").placeholder = "Введите имя пользователя";</script>
+
+            <label for="{{ form.email.id_for_label }}">Email</label>
+            {{ form.email }}
+            <script>document.getElementById("{{ form.email.id_for_label }}").placeholder = "Введите вашу почту";</script>
+
+            <label for="{{ form.password1.id_for_label }}">Пароль</label>
+            {{ form.password1 }}
+            <script>document.getElementById("{{ form.password1.id_for_label }}").placeholder = "Введите пароль";</script>
+
+            <label for="{{ form.password2.id_for_label }}">Подтвердите пароль</label>
+            {{ form.password2 }}
+            <script>document.getElementById("{{ form.password2.id_for_label }}").placeholder = "Повторите пароль";</script>
+
+            <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+        </form>
+        <a href="{% url 'home' %}" class="btn btn-home">На главную страницу</a>
+    </div>
+</body>
+</html>

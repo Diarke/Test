@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'main/css/main.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo"><a href="{% url 'home' %}" style="text-decoration: none; color: white;">TESTTER.KZ</a></div>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'home' %}">Главная</a></li>
+                    {% if user.is_authenticated %}
+                        {% if user.is_superuser %}
+                            <li><a href="{% url 'news_form' %}">Создать новость</a></li>
+                        {% endif %}
+                        <li><a href="{% url 'otzv' %}">Отзывы</a></li>
+                        <li class="user">{{ user.username }}</li>
+                        <li><a href="{% url 'logout' %}" class="logout">Выйти</a></li>
+                    {% else %}
+                        <li><a href="{% url 'register' %}">Регистрация</a></li>
+                        <li><a href="{% url 'login' %}">Войти</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <!-- Раздел "О нас" -->
+            <div class="footer-column">
+                <h3>О нас</h3>
+                <p>Мы предоставляем лучшие отзывы и рейтинги. Делитесь своим мнением!</p>
+            </div>
+
+            <!-- Раздел "Ссылки" -->
+            <div class="footer-column">
+                <h3>Полезные ссылки</h3>
+                <ul>
+                    <li><a href="#">Главная</a></li>
+                    <li><a href="#">О нас</a></li>
+                    <li><a href="#">Контакты</a></li>
+                    <li><a href="#">Политика конфиденциальности</a></li>
+                </ul>
+            </div>
+
+            <!-- Раздел "Связь с нами" -->
+            <div class="footer-column">
+                <h3>Связь с нами</h3>
+                <ul>
+                    <li>Email: support@example.com</li>
+                    <li>Телефон: +7 (900) 123-45-67</li>
+                </ul>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            © 2025 Все права защищены | Сделано с ❤️
+        </div>
+    </footer>
+</body>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+</html>

@@ -1,0 +1,115 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}TESTTER.KZ{% endblock %}
+<style>
+    html,
+    body {
+      position: relative;
+      height: 100%;
+    }
+
+    body {
+      background: #eee;
+      font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      color: #000;
+      margin: 0;
+      padding: 0;
+    }
+
+    .swiper {
+      width: 100%;
+      height: 100%;
+    }
+
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .swiper-slide img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  </style>
+{% block content %}
+    <div class="container">
+        <section class="hero">
+            <div class="text-content">
+                <h1>Крупнейший ресурс для онлайн-обучения в Казахстане</h1>
+                <p>Подготовка к ЕНТ, ОЗП, МОДО, госаттестации...</p>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'tests' %}" class="btn">Перейти к тестам</a>
+                {% else %}
+                    <a href="{% url 'register' %}" class="btn">Зарегистрироваться</a>
+                {% endif %}
+            </div>
+            <div class="image-content">
+                <img src="{% static 'main/img/laptop.png' %}" alt="Обучение онлайн">
+            </div>
+        </section>
+    </div>
+
+    <div class="divider">
+        <span class="divider-text">Новости</span>
+    </div>
+    <div class="news-wrapper">
+        {% for new in news %}
+            {% if forloop.counter0|divisibleby:4 %}
+                <div class="news-row">
+            {% endif %}
+            <a href="{% url 'news_detail' new.id %}" class="news-item">
+                <h3>{{ new.title }}</h3>
+                <p>Категория: {{ new.category }}</p>
+                <p>Автор: {{ new.author }}</p>
+            </a>
+            {% if forloop.counter|divisibleby:4 or forloop.last %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% if user.is_authenticated %}
+        <div class="divider">
+            <span class="divider-text">Отзывы</span>
+        </div>
+                <div class="swiper mySwiper" style="max-width: 1300px; overflow: hidden; margin-bottom: 100px;">
+                    <div class="swiper-wrapper">
+                        {% for i in comments %}
+                            <div class="swiper-slide">
+                                <div class="review-card">
+                                    <h5 class="review-name">{{ i.name }}</h5>
+                                    <p class="review-text">{{ i.text }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+    {% endif %}
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <!-- Initialize Swiper -->
+  <script>
+    var swiper = new Swiper(".mySwiper", {
+      slidesPerView: 4,
+      spaceBetween: 50,
+      centeredSlides: true,
+      autoplay: {
+        delay: 2500,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+    });
+  </script>
+{% endblock %}

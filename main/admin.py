@@ -11,3 +11,6 @@ class QuestionsAdmin(admin.ModelAdmin):
 
 admin.site.register(Subject)
 admin.site.register(Questions, QuestionsAdmin)
+admin.site.register(History)
+admin.site.register(News)
+admin.site.register(Review)

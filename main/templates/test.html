@@ -1,104 +1,55 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ subject.name }}</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <style>
-        body {
-            background-color: #121212;
-            color: #EEEEEE;
-            font-family: 'Montserrat', sans-serif;
-            text-align: center;
-            padding: 20px;
-        }
-        .container {
-            max-width: 700px;
-            margin: auto;
-            background: #1E1E1E;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-        }
-        .title {
-            font-size: 32px;
-            font-weight: 800;
-            margin-bottom: 20px;
-            color: #FFFFFF; /* Белый заголовок */
-        }
-        .question {
-            margin-top: 20px;
-            font-size: 20px;
-            font-weight: 700;
-            color: #00ADB5;
-        }
-        .answers-list {
-            padding: 0;
-        }
-        .answers-list li {
-            margin: 10px 0;
-        }
-        .answer {
-            display: block;
-            background: #222831;
-            color: #EEEEEE;
-            padding: 15px;
-            border-radius: 8px;
-            font-weight: 500;
-            text-align: left;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: all 0.3s ease-in-out;
-        }
-        .answer:hover {
-            background: #393E46;
-        }
-        input[type="radio"] {
-            display: none;
-        }
-        input[type="radio"]:checked + .answer {
-            background: #FF5722;
-            color: #FFFFFF;
-            border: 2px solid #FF8A65;
-        }
-        .btn-submit {
-            background: linear-gradient(135deg, #FF5722, #E64A19);
-            color: #FFFFFF;
-            border: none;
-            border-radius: 30px;
-            padding: 15px 20px;
-            font-size: 18px;
-            font-weight: 700;
-            width: 100%;
-            margin-top: 20px;
-            transition: transform 0.2s ease-in-out, box-shadow 0.3s ease-in-out;
-            box-shadow: 0 4px 10px rgba(255, 87, 34, 0.5);
-        }
-        .btn-submit:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 15px rgba(255, 87, 34, 0.8);
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'main/css/test.css' %}"> 
 </head>
 <body>
-    <div class="container">
-        <h2 class="title">Тест: {{ subject.name }}</h2>
-        <form method="POST">
+    <div class="test-wrapper">
+        <div class="test-header">
+            <h1 class="test-title">{{ subject.name }}</h1>
+            <a href="{% url 'tests' %}" class="btn-back">Выйти из теста</a>
+        </div>
+
+        <form method="POST" class="test-form">
             {% csrf_token %}
             {% for question in questions %}
-                <p class="question">{{ question.questions }}</p>
-                <ol class="answers-list" type="A">
-                    {% for answer in question.answers_set.all %}
-                        <li>
-                            <input type="radio" id="answer_{{ answer.id }}" name="{{ question.id }}" value="{{ answer.id }}">
-                            <label class="answer" for="answer_{{ answer.id }}">{{ answer.answer }}</label>
-                        </li>
-                    {% endfor %}
-                </ol>
+                <div class="question-card">
+                    <h2 class="question">{{ question.questions }}</h2>
+                    <div class="answers-grid">
+                        {% for answer in question.answers_set.all %}
+                            <label class="answer-card">
+                                <input type="radio" name="{{ question.id }}" value="{{ answer.id }}" class="answer-input">
+                                <span class="answer-letter">
+                                    {% if forloop.counter == 1 %}A
+                                    {% elif forloop.counter == 2 %}B
+                                    {% elif forloop.counter == 3 %}C
+                                    {% elif forloop.counter == 4 %}D
+                                    {% endif %}
+                                </span>
+                                <span class="answer-text">{{ answer.answer }}</span>
+                            </label>
+                        {% endfor %}
+                    </div>
+                </div>
             {% endfor %}
-            <button type="submit" class="btn-submit">📩 Отправить</button>
+            <button type="submit" class="btn-submit">Закончить тест</button>
         </form>
     </div>
+
+    <script>
+        document.querySelectorAll('.answer-card').forEach(label => {
+            label.addEventListener('click', function() {
+                let parent = this.closest('.answers-grid');
+                parent.querySelectorAll('.answer-card').forEach(el => {
+                    el.classList.remove('selected');
+                });
+                this.classList.add('selected');
+            });
+        });
+    </script>
 </body>
 </html>

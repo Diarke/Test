@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'main/css/otzv.css' %}">
+    <title>Отзывы</title>
+</head>
+<body>
+    <div class="container">
+        <a href="{% url 'home' %}" class="btn btn-outline-dark">← Назад</a>
+        
+        <h2 class="title">Оставьте свой отзыв</h2>
+
+        <div class="form-container">
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.name }}
+                {{ form.text }}
+                <button type="submit" class="btn btn-submit">Отправить</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

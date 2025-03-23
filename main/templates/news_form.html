@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форма новости</title>
+    <link rel="stylesheet" href="{% static 'main/css/news_form.css' %}">
+</head>
+<body>
+    <div class="form-container">
+        <h2>Добавить новость</h2>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="{{ form.author.id_for_label }}">Автор</label>
+                {{ form.author }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.popularity.id_for_label }}">Популярность</label>
+                {{ form.popularity }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.category.id_for_label }}">Категория</label>
+                {{ form.category }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.img1.id_for_label }}">Изображение 1</label>
+                {{ form.img1 }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.img2.id_for_label }}">Изображение 2</label>
+                {{ form.img2 }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.title.id_for_label }}">Заголовок</label>
+                {{ form.title }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.description.id_for_label }}">Описание</label>
+                {{ form.description }}
+            </div>
+
+            <button type="submit" class="btn btn-submit">Отправить</button>
+        </form>
+    </div>
+</body>
+</html>

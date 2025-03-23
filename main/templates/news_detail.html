@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}Новости{% endblock %}
+<style>
+
+</style>
+{% block content %}
+    {% for new in news %}
+        <div class="news-container">
+            {% if user.is_superuser %}
+                <li><a href="{% url 'news_update' new.pk %}" class="news-admin-btn">Редактировать</a></li>
+                <li><a href="{% url 'news_delete' new.pk %}" class="news-admin-btn news-delete-btn">Удалить</a></li>
+            {% endif %}
+            <h1 class="news-title">{{ new.title }}</h1>
+            <p class="news-meta">Опубликовано: {{ new.created }} | Автор: {{ new.author }} | Категория: {{ new.category }}</p>
+
+            {% if new.img1 %}
+                <img src="{{ new.img1.url }}" alt="Основное изображение" class="news-img">
+            {% endif %}
+            
+            {% if new.img2 %}
+                <img src="{{ new.img2.url }}" alt="Дополнительное изображение" class="news-img">
+            {% endif %}
+
+            <p class="news-description">{{ new.description }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}
